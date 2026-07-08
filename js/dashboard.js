@@ -47,10 +47,22 @@ const Dashboard = {
       // Fetch customer names for pending bills
       const pending = bills.filter(b => b.status === 'PENDING');
       let pendingCusts = [];
-      if (pending.length > 0) {
-        const custIds = [...new Set(pending.map(b => b.customer_id))];
-        const { data } = await supabase.from('customers').select('id,name').in('id', custIds);
+      const pendingCustIds = pending.map(b => b.customer_id);
+      const deliveryCustIds = (todayDels || []).map(d => d.customer_id);
+      const allNeededCustIds = [...new Set([...pendingCustIds, ...deliveryCustIds])];
+      
+      if (allNeededCustIds.length > 0) {
+        const { data } = await supabase.from('customers').select('id,name').in('id', allNeededCustIds);
         pendingCusts = data || [];
+        
+        // Populate the missing customers(name) for todayDels to mimic the JOIN
+        const custMap = {};
+        pendingCusts.forEach(c => custMap[c.id] = c);
+        (todayDels || []).forEach(d => {
+          if (custMap[d.customer_id]) {
+            d.customers = { name: custMap[d.customer_id].name };
+          }
+        });
       }
 
       // Package data for caching

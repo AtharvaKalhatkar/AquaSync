@@ -36,40 +36,40 @@ const translations = {
     reports: 'Report Grid',
     openPdf: 'Open Invoice PDF'
   },
-  mr: {
-    home: 'मुख्य पान',
-    logs: 'नोंदी',
-    clients: 'ग्राहक',
-    vault: 'तिजोरी',
-    connected: 'कनेक्टेड',
-    loggedToday: 'आजची डिलिव्हरी',
-    unpaidBills: 'थकीत बिले',
-    totalClients: 'एकूण ग्राहक',
-    todaysDeliveries: "आजच्या डिलिव्हरी नोंदी",
-    pendingInvoices: 'थकीत पावत्या',
-    logDeliveryBtn: 'डिलिव्हरी नोंदवा',
-    viewClientsBtn: 'ग्राहक यादी',
-    logJarDropoff: 'जार नोंदणी करा',
-    addressesPhones: 'पत्ते आणि फोन',
-    noDeliveries: 'आज कोणतीही डिलिव्हरी नोंदवलेली नाही.',
-    allCollections: 'सर्व वसुली पूर्ण झाली आहे!',
-    cancel: 'रद्द करा',
-    save: 'जतन करा',
-    edit: 'बदला',
-    delete: 'काढून टाका',
-    items: 'नग',
-    localVaultLoaded: 'ऑफलाईन डेटा लोड केला आहे',
+  gu: {
+    home: 'મુખ્ય પૃષ્ઠ',
+    logs: 'લોગ્સ',
+    clients: 'ગ્રાહકો',
+    vault: 'તિજોરી',
+    connected: 'જોડાયેલ છે',
+    loggedToday: 'આજની ડિલિવરી',
+    unpaidBills: 'બાકી બિલ',
+    totalClients: 'કુલ ગ્રાહકો',
+    todaysDeliveries: "આજની ડિલિવરી",
+    pendingInvoices: 'બાકી બિલ',
+    logDeliveryBtn: 'ડિલિવરી નોંધો',
+    viewClientsBtn: 'ગ્રાહકો જુઓ',
+    logJarDropoff: 'જાર નોંધો',
+    addressesPhones: 'સરનામાં અને ફોન',
+    noDeliveries: 'આજે કોઈ ડિલિવરી નોંધાયેલ નથી.',
+    allCollections: 'બધી વસૂલાત પૂર્ણ થઈ ગઈ છે!',
+    cancel: 'રદ કરો',
+    save: 'સાચવો',
+    edit: 'ફેરફાર કરો',
+    delete: 'કાઢી નાખો',
+    items: 'વસ્તુઓ',
+    localVaultLoaded: 'ઑફલાઇન ડેટા લોડ થયો છે',
     
     // Form Inputs
-    jars: 'जार',
-    bottles: 'बाटल्या',
+    jars: 'જાર',
+    bottles: 'બોટલ',
     
     // Vault
-    sales: 'मासिक व्यवसाय विक्री',
-    bulkBillingBtn: 'ऑटो बिल गणना (एकत्रित)',
-    invoices: 'बिले / पावत्या',
-    reports: 'अहवाल तक्ता',
-    openPdf: 'इन्वॉइस PDF उघडा'
+    sales: 'માસિક વેચાણ',
+    bulkBillingBtn: 'ઓટો બિલિંગ ગણતરી',
+    invoices: 'બિલ / ઇન્વૉઇસ',
+    reports: 'રિપોર્ટ ગ્રીડ',
+    openPdf: 'ઇન્વૉઇસ PDF ખોલો'
   }
 };
 
@@ -85,7 +85,7 @@ const App = {
   },
 
   toggleLanguage() {
-    this.currentLang = this.currentLang === 'en' ? 'mr' : 'en';
+    this.currentLang = this.currentLang === 'en' ? 'gu' : 'en';
     try {
       localStorage.setItem('demo_lang', this.currentLang);
     } catch(e) {}
@@ -107,9 +107,9 @@ const App = {
 
   applyLanguage() {
     if (typeof translations === 'undefined' || !this.currentLang || !translations[this.currentLang]) return;
-    const isMr = this.currentLang === 'mr';
+    const isGu = this.currentLang === 'gu';
     const langBtnText = document.getElementById('langText');
-    if (langBtnText) langBtnText.textContent = isMr ? 'EN' : 'मराठी';
+    if (langBtnText) langBtnText.textContent = isGu ? 'EN' : 'ગુજરાતી';
 
     document.querySelectorAll('[data-t]').forEach(el => {
       try {
@@ -542,6 +542,31 @@ const App = {
     this.loadBusinessDetails();
     this.closeModal();
     this.toast('Setup Complete!', 'success');
+    setTimeout(() => this.showOnboardingGuide(), 500);
+  },
+
+  showOnboardingGuide() {
+    this.showModal(`
+      <div style="text-align:center; padding:10px 0;">
+        <div style="margin-bottom:16px; display:flex; justify-content:center; color:var(--accent-cyan)">
+          <i data-lucide="book-open" style="width:48px; height:48px; stroke-width:1.5px;"></i>
+        </div>
+        <div class="modal-title" style="justify-content:center; font-size:18px;">Quick Start Guide</div>
+        <div style="text-align:left; font-size:13px; color:var(--text-secondary); margin-bottom:24px; line-height:1.6; max-height: 400px; overflow-y: auto; padding-right:5px;">
+          <p><strong>1. Add a Customer</strong><br>Go to the <b>Clients</b> tab at the bottom and tap the "+" button to add your first customer. Set their jar and bottle rates.</p>
+          <hr style="border:0; border-top:1px solid var(--border-slate); margin:10px 0;">
+          <p><strong>2. Log Daily Deliveries</strong><br>On the <b>Home</b> screen, tap the big blue "+" button. Select your customer, enter the number of jars delivered, and save.</p>
+          <hr style="border:0; border-top:1px solid var(--border-slate); margin:10px 0;">
+          <p><strong>3. Generate Invoices</strong><br>At the end of the month, go to the <b>Vault</b> tab. Tap "Auto Bulk Billing" to automatically calculate the month's total for every customer based on their daily deliveries and rates.</p>
+          <hr style="border:0; border-top:1px solid var(--border-slate); margin:10px 0;">
+          <p><strong>4. Share PDFs & Collect Payments</strong><br>Tap any invoice in the Vault to open it. From there, you can share the PDF directly to WhatsApp or log a payment.</p>
+        </div>
+        <button class="btn btn-primary mt-8" onclick="App.closeModal()" style="width:100%">
+          <i data-lucide="check-circle-2"></i> I'm Ready!
+        </button>
+      </div>
+    `);
+    this.refreshIcons();
   }
 };
 

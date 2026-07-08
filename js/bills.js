@@ -81,10 +81,10 @@ const Bills = {
     
     return `
       <div style="font-family: 'Times New Roman', Times, serif; color: #000; font-size: 12px; line-height: 1.4;">
-        <div style="text-align:center; font-weight:800; font-size:13px; margin-bottom:8px;">॥ श्री भैरवनाथ प्रसन्न ॥</div>
+        ${localStorage.getItem('biz_tagline') ? `<div style="text-align:center; font-weight:800; font-size:13px; margin-bottom:8px;">${localStorage.getItem('biz_tagline')}</div>` : ''}
         <div style="text-align:center; margin-bottom:6px;"><img src="icons/logo.png" crossorigin="anonymous" style="width:50px; height:50px; border-radius:50%;"></div>
         <div style="text-align:center; font-size:28px; font-weight:bold;">${(localStorage.getItem('biz_name') || 'AQUA SYNC DEMO').toUpperCase()}</div>
-        <div style="text-align:center; font-size:11px;">Bathe Wasti, Talawade, Tal. Haveli, Dist. Pune - 411 062</div>
+        <div style="text-align:center; font-size:11px;">${localStorage.getItem('biz_address') || ''}</div>
         <div style="text-align:center; font-weight:bold;">Mob: ${localStorage.getItem('biz_phone') || '9876543210'}</div>
         <div style="border-top:2px solid #000; margin:8px 0 2px 0;"></div>
         <div style="border-top:1px solid #000; margin-bottom:15px;"></div>
@@ -110,8 +110,8 @@ const Bills = {
           <div style="text-align:right;"><div style="font-size:11px; font-weight:bold;">GRAND TOTAL</div><div style="font-size:22px; font-weight:bold;">₹ ${Math.round(total).toLocaleString('en-IN')}</div></div>
         </div>
         <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:15px; margin-top:20px;">
-          <div style="border:1px solid #ccc; padding:10px;"><strong style="display:block; font-size:10px; margin-bottom:5px;">BANK DETAILS</strong><div>A/c Name: ${localStorage.getItem('biz_name') || 'Aqua Sync Demo'}</div><div>Bank: Demo Bank</div><div>A/c No: 1234567890</div></div>
-          <div style="border:1px solid #ccc; padding:10px; text-align:center;"><strong style="display:block; font-size:10px; margin-bottom:5px;">SCAN TO PAY</strong><img src="${qrUrl}" crossorigin="anonymous" style="display:block; margin:5px auto; width:100px; height:100px;"><div style="font-size:9px; font-weight:bold;">7030355656-6@ibl</div></div>
+          <div style="border:1px solid #ccc; padding:10px;"><strong style="display:block; font-size:10px; margin-bottom:5px;">BANK DETAILS</strong><div>A/c Name: ${localStorage.getItem('biz_name') || 'Aqua Sync Demo'}</div><div>Bank: ${localStorage.getItem('biz_bank_name') || ''}</div><div>A/c No: ${localStorage.getItem('biz_bank_acc') || ''}</div></div>
+          <div style="border:1px solid #ccc; padding:10px; text-align:center;"><strong style="display:block; font-size:10px; margin-bottom:5px;">SCAN TO PAY</strong><img src="${qrUrl}" crossorigin="anonymous" style="display:block; margin:5px auto; width:100px; height:100px;"><div style="font-size:9px; font-weight:bold;">${localStorage.getItem('biz_upi') || 'demo@ybl'}</div></div>
           <div style="text-align:center; display:flex; flex-direction:column; justify-content:flex-end; position:relative;">
             <div style="flex-grow:1; display:flex; align-items:flex-end; justify-content:center; min-height:70px; position:relative;">
               <img src="icons/stamp.png" crossorigin="anonymous" style="height:75px; width:auto; object-fit:contain; opacity:0.85; position:absolute; bottom:5px; z-index:1;" onerror="this.style.display='none'">

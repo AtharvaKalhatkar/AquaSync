@@ -482,6 +482,16 @@ const App = {
         </div>
         
         <div class="form-group" style="text-align:left;">
+          <label class="form-label">Tagline (Optional)</label>
+          <input type="text" id="setupBizTagline" class="form-input" placeholder="e.g. ॥ श्री स्वामी समर्थ ॥" value="${localStorage.getItem('biz_tagline') || ''}">
+        </div>
+        
+        <div class="form-group" style="text-align:left;">
+          <label class="form-label">Business Address</label>
+          <input type="text" id="setupBizAddress" class="form-input" placeholder="e.g. 123 Main St, City" value="${localStorage.getItem('biz_address') || ''}">
+        </div>
+        
+        <div class="form-group" style="text-align:left;">
           <label class="form-label">UPI Phone Number (For Payments)</label>
           <input type="number" id="setupBizPhone" class="form-input" placeholder="e.g. 9876543210" value="${localStorage.getItem('biz_phone') || ''}">
         </div>
@@ -489,6 +499,16 @@ const App = {
         <div class="form-group" style="text-align:left;">
           <label class="form-label">UPI ID (VPA)</label>
           <input type="text" id="setupBizUpi" class="form-input" placeholder="e.g. 9876543210@ybl" value="${localStorage.getItem('biz_upi') || ''}">
+        </div>
+        
+        <div class="form-group" style="text-align:left;">
+          <label class="form-label">Bank Name (Optional)</label>
+          <input type="text" id="setupBizBankName" class="form-input" placeholder="e.g. HDFC Bank" value="${localStorage.getItem('biz_bank_name') || ''}">
+        </div>
+        
+        <div class="form-group" style="text-align:left;">
+          <label class="form-label">Bank Account Number (Optional)</label>
+          <input type="text" id="setupBizBankAcc" class="form-input" placeholder="e.g. 501002345678" value="${localStorage.getItem('biz_bank_acc') || ''}">
         </div>
         
         <button class="btn btn-primary mt-16" onclick="App.saveBusinessSetup()" style="width:100%">
@@ -501,14 +521,22 @@ const App = {
 
   saveBusinessSetup() {
     const name = document.getElementById('setupBizName').value.trim();
+    const tagline = document.getElementById('setupBizTagline').value.trim();
+    const address = document.getElementById('setupBizAddress').value.trim();
     const phone = document.getElementById('setupBizPhone').value.trim();
     const upi = document.getElementById('setupBizUpi').value.trim();
+    const bankName = document.getElementById('setupBizBankName').value.trim();
+    const bankAcc = document.getElementById('setupBizBankAcc').value.trim();
     
     if (!name) return this.toast('Business Name is required', 'warning');
     
     localStorage.setItem('biz_name', name);
+    localStorage.setItem('biz_tagline', tagline);
+    localStorage.setItem('biz_address', address);
     localStorage.setItem('biz_phone', phone);
     localStorage.setItem('biz_upi', upi);
+    localStorage.setItem('biz_bank_name', bankName);
+    localStorage.setItem('biz_bank_acc', bankAcc);
     localStorage.setItem('biz_setup', '1');
     
     this.loadBusinessDetails();

@@ -594,8 +594,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p style="font-size:12px; color:var(--text-secondary); margin-bottom:24px; line-height:1.5;">
             Your 7-day free trial has expired. To continue using the software, please contact the developer to purchase the full version and unlock all features.
           </p>
-          <a href="tel:8888355656" class="btn btn-primary" style="width:100%; text-decoration:none;">
-            <i data-lucide="phone"></i> Contact Support
+          <a href="https://wa.me/918390768833?text=Hi,%20my%207-day%20trial%20for%20the%20Aqua%20Billing%20Software%20has%20expired.%20I%20would%20like%20to%20purchase%20the%20full%20version." target="_blank" class="btn btn-primary" style="width:100%; text-decoration:none; background:#25D366; border-color:#25D366; color:#fff;">
+            <i data-lucide="message-circle"></i> Message on WhatsApp
           </a>
         </div>
       `);

@@ -331,7 +331,7 @@ const Backup = {
       backupData.source = 'offline_cache';
 
       // Gather cached customers
-      const cachedCusts = localStorage.getItem('cache_cust_dropdown');
+      const cachedCusts = localStorage.getItem('demo_cache_cust_dropdown');
       if (cachedCusts) {
         try { backupData.data.customers = JSON.parse(cachedCusts); } catch(ex) {}
       }
@@ -339,7 +339,7 @@ const Backup = {
       // Gather cached deliveries from all date keys
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && key.startsWith('cache_del_')) {
+        if (key && key.startsWith('demo_cache_del_')) {
           try {
             const dels = JSON.parse(localStorage.getItem(key));
             if (Array.isArray(dels)) {
@@ -356,7 +356,7 @@ const Backup = {
       // Gather cached bills from all month keys
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && key.startsWith('cache_bills_')) {
+        if (key && key.startsWith('demo_cache_bills_')) {
           try {
             const cached = JSON.parse(localStorage.getItem(key));
             if (cached && Array.isArray(cached.bills)) {

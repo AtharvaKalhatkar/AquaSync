@@ -41,12 +41,12 @@ const Deliveries = {
       if (error) throw error;
       
       // Cache successful response for offline visual memory
-      localStorage.setItem('cache_del_' + this.selectedDate, JSON.stringify(data));
+      localStorage.setItem('demo_cache_del_' + this.selectedDate, JSON.stringify(data));
       
       this.renderDeliveriesList(data, false);
     } catch (e) {
       // Catch network error and try to load from Offline Memory Cache
-      const offlineData = localStorage.getItem('cache_del_' + this.selectedDate);
+      const offlineData = localStorage.getItem('demo_cache_del_' + this.selectedDate);
       if (offlineData) {
         try {
           const parsed = JSON.parse(offlineData);
@@ -133,10 +133,10 @@ const Deliveries = {
       
       custs = data || [];
       if (custs.length > 0) {
-        localStorage.setItem('cache_cust_dropdown', JSON.stringify(custs));
+        localStorage.setItem('demo_cache_cust_dropdown', JSON.stringify(custs));
       }
     } catch (e) {
-      const offlineCusts = localStorage.getItem('cache_cust_dropdown');
+      const offlineCusts = localStorage.getItem('demo_cache_cust_dropdown');
       if (offlineCusts) {
         try { custs = JSON.parse(offlineCusts); } catch (ex) {}
       }
@@ -279,7 +279,7 @@ const Deliveries = {
       const res = await supabase.from('deliveries').select('*, customers(name)').eq('id', id).single();
       d = res.data;
     } catch (e) {
-      const cached = localStorage.getItem('cache_del_' + App.todayStr());
+      const cached = localStorage.getItem('demo_cache_del_' + App.todayStr());
       if (cached) {
         const parsed = JSON.parse(cached);
         d = parsed.find(x => x.id === id);

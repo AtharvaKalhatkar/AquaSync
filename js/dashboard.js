@@ -3,7 +3,7 @@ const Dashboard = {
   async load() {
     // ⚡ Instant Hydration (Stale-While-Revalidate Step 1)
     let renderedCache = false;
-    const offlineData = localStorage.getItem('cache_dashboard');
+    const offlineData = localStorage.getItem('demo_cache_dashboard');
     if (offlineData) {
       try {
         const parsed = JSON.parse(offlineData);
@@ -63,7 +63,7 @@ const Dashboard = {
       };
 
       // Save new fresh copy to Local Storage
-      localStorage.setItem('cache_dashboard', JSON.stringify(payload));
+      localStorage.setItem('demo_cache_dashboard', JSON.stringify(payload));
       
       // Repaint with fresh, validated cloud numbers! (Stale-While-Revalidate Step 2)
       this.render(payload, false);

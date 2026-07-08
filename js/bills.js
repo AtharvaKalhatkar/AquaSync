@@ -199,7 +199,7 @@ const Bills = {
     const year = parseInt(document.getElementById('billYear').value);
     const div = document.getElementById('billList');
     
-    const cacheKey = 'cache_bills_' + month + '_' + year;
+    const cacheKey = 'demo_cache_bills_' + month + '_' + year;
     let hydrated = false;
 
     // ⚡ Stale-While-Revalidate: Check Offline Storage first

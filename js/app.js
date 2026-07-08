@@ -537,12 +537,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     dateEl.textContent = new Date().toLocaleDateString('en-IN', options);
   }
   const ok = await checkConnection();
-  document.getElementById('syncStatus').textContent = ok ? 'Connected' : 'Offline Demo';
+  // document.getElementById('syncStatus').textContent = ok ? 'Connected' : 'Offline Demo';
   if (typeof Dashboard !== 'undefined' && Dashboard.load) {
     Dashboard.load();
   }
   
   App.loadBusinessDetails();
+  
+  // 7-DAY TRIAL LOGIC
+  const trialStart = localStorage.getItem('demo_trial_start');
+  if (!trialStart) {
+    localStorage.setItem('demo_trial_start', new Date().toISOString());
+  } else {
+    const start = new Date(trialStart);
+    const now = new Date();
+    const diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+    
+    const syncStatusEl = document.getElementById('syncStatus');
+    if (diffDays >= 7) {
+      if (syncStatusEl) syncStatusEl.textContent = 'Trial Expired';
+      if (syncStatusEl) syncStatusEl.style.color = '#ef4444';
+      App.showModal(`
+        <div style="text-align:center; padding:10px 0;">
+          <div style="margin-bottom:16px; display:flex; justify-content:center; color:var(--accent-rose)">
+            <i data-lucide="lock" style="width:44px; height:44px; stroke-width:1.5px;"></i>
+          </div>
+          <div class="modal-title" style="justify-content:center;">Trial Expired</div>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:24px; line-height:1.5;">
+            Your 7-day free trial has expired. To continue using the software, please contact the developer to purchase the full version and unlock all features.
+          </p>
+          <a href="tel:8888355656" class="btn btn-primary" style="width:100%; text-decoration:none;">
+            <i data-lucide="phone"></i> Contact Support
+          </a>
+        </div>
+      `);
+      return; // Lock app
+    } else {
+      const daysLeft = 7 - diffDays;
+      if (syncStatusEl) syncStatusEl.textContent = \`Trial: \${daysLeft} days left\`;
+    }
+  }
+
   if (localStorage.getItem('biz_setup') !== '1') {
     setTimeout(() => App.promptBusinessSetup(), 500);
   }

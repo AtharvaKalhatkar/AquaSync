@@ -62,7 +62,7 @@ const Customers = {
       if (!hydrated) {
         div.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-text">Offline. No local data cached yet.</div></div>';
       } else {
-        App.toast('📶 Offline Mode: Loaded saved customer records.', 'warning');
+        
       }
     }
   },

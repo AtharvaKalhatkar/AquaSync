@@ -285,7 +285,7 @@ const Deliveries = {
         d = parsed.find(x => x.id === id);
       }
     }
-    if (!d) { App.toast('Cannot load details offline.', 'warning'); return; }
+    if (!d) {  return; }
     App.showModal(`
       <div class="modal-title"><i data-lucide="file-text"></i> Log Details</div>
       <div style="background:var(--bg-slate); border:1px solid var(--border-slate); border-radius:var(--radius-md); padding:20px; margin-bottom:20px; display:flex; flex-direction:column; gap:12px;">

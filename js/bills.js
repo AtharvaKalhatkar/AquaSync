@@ -278,7 +278,7 @@ const Bills = {
         div.innerHTML = '<div class="empty-state"><i data-lucide="alert-octagon" class="empty-icon-vector"></i><div class="empty-text">Ledger load failure: ' + e.message + '</div></div>';
         App.refreshIcons();
       } else {
-        App.toast('📶 Offline Ledger copy maintained.', 'warning');
+        
       }
     }
   },
@@ -555,7 +555,7 @@ const Bills = {
         c = resC.data;
       }
     } catch (e) {
-      App.toast('Cannot load bill details offline.', 'warning');
+      
       return;
     }
     if (!b) return;

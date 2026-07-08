@@ -313,7 +313,7 @@ const Reports = {
         content.innerHTML = `<div class="empty-state"><i data-lucide="alert-octagon" class="empty-icon-vector"></i><div class="empty-text">Could not load report: ${e.message}</div><button class="btn btn-outline mt-16" onclick="Reports.load()">Retry</button></div>`;
         App.refreshIcons();
       } else {
-        App.toast('📶 Loaded offline report matrix.', 'warning');
+        
       }
     }
   },
@@ -371,7 +371,7 @@ const Reports = {
           }
            App.closeModal();
            if (result && result.offline) {
-               App.toast('Saved offline - sync when online', 'warning');
+               
            } else {
                App.toast('Saved successfully!');
                const mSelect = document.getElementById('reportMonth');

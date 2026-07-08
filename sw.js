@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aqua-demo-v2';
+const CACHE_NAME = 'aqua-demo-v3';
 
 const PRECACHE_URLS = [
   './',

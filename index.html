@@ -26,7 +26,7 @@
         <img src="icons/logo.png" class="header-logo" alt="Logo">
         <div>
           <div class="header-title" id="bizNameDisplay">Aqua Sync Demo</div>
-          <div class="header-subtitle" id="syncStatus">Connecting...</div>
+          <div class="header-subtitle" id="syncStatus" style="color:#10b981;">Active Trial</div>
         </div>
       </div>
       <div style="display: flex; gap: 8px; align-items: center;">
@@ -37,9 +37,7 @@
         <button class="header-sync" id="btnTheme" onclick="if(typeof App !== 'undefined' && App.toggleTheme) App.toggleTheme()" aria-label="Toggle Theme">
           <i data-lucide="sun"></i>
         </button>
-        <button class="header-sync" id="btnSync" onclick="if(typeof App !== 'undefined' && App.syncAll) App.syncAll()" aria-label="Sync Data">
-          <i data-lucide="refresh-cw"></i>
-        </button>
+
       </div>
     </header>
 

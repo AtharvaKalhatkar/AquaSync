@@ -34,11 +34,24 @@ const Deliveries = {
     try {
       const { data, error } = await supabase
         .from('deliveries')
-        .select('*, customers(name)')
+        .select('*')
         .eq('delivery_date', this.selectedDate)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
+      
+      const deliveryCustIds = (data || []).map(d => d.customer_id);
+      if (deliveryCustIds.length > 0) {
+        const uniqueIds = [...new Set(deliveryCustIds)];
+        const { data: custData } = await supabase.from('customers').select('id,name').in('id', uniqueIds);
+        const custMap = {};
+        (custData || []).forEach(c => custMap[c.id] = c);
+        (data || []).forEach(d => {
+          if (custMap[d.customer_id]) {
+            d.customers = { name: custMap[d.customer_id].name };
+          }
+        });
+      }
       
       // Cache successful response for offline visual memory
       localStorage.setItem('demo_cache_del_' + this.selectedDate, JSON.stringify(data));
@@ -216,7 +229,7 @@ const Deliveries = {
     if (!cid || !date) return;
     
     try {
-      const { data, error } = await supabase.from('deliveries').select('id, jar_qty, bottle_qty').eq('customer_id', cid).eq('delivery_date', date).maybeSingle();
+      const { data, error } = await supabase.from('deliveries').select('id, jar_qty, bottle_qty').eq('customer_id', cid).eq('delivery_date', date).single();
       
       if (data && !error) {
         document.getElementById('addDelJars').value = data.jar_qty;

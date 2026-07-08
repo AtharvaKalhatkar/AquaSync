@@ -136,11 +136,7 @@ const App = {
   },
 
   navigate(page, pushHistory = true) {
-    // Check Owner Security Privilege for the entire consolidated Vault
-    if (page === 'Vault' && sessionStorage.getItem('owner_authed') !== 'true') {
-      this.promptOwnerPin(page);
-      return;
-    }
+    // Removed for demo version as requested
 
     if (pushHistory) {
       try {

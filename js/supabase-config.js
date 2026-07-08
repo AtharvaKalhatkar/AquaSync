@@ -6,7 +6,6 @@
 const SUPABASE_URL = 'demo';
 const SUPABASE_ANON_KEY = 'demo';
 
-// Helper to get local table
 function getLocalTable(table) {
   try {
     const data = localStorage.getItem('demo_db_' + table);
@@ -14,57 +13,76 @@ function getLocalTable(table) {
   } catch { return []; }
 }
 
-// Helper to save local table
 function saveLocalTable(table, data) {
   localStorage.setItem('demo_db_' + table, JSON.stringify(data));
 }
 
-// Mock Supabase Client
+class MockQueryBuilder {
+  constructor(table) {
+    this.table = table;
+    this.data = getLocalTable(table);
+  }
+  
+  select(cols, opts) {
+    if (opts && opts.count) {
+       this.isCount = true;
+    }
+    return this;
+  }
+  
+  eq(col, val) {
+    this.data = this.data.filter(r => r[col] == val);
+    return this;
+  }
+  
+  in(col, vals) {
+    this.data = this.data.filter(r => vals.includes(r[col]));
+    return this;
+  }
+  
+  order(col, opts) {
+    this.data.sort((a, b) => {
+      let aval = a[col];
+      let bval = b[col];
+      if (aval < bval) return -1;
+      if (aval > bval) return 1;
+      return 0;
+    });
+    if (opts && opts.ascending === false) {
+      this.data.reverse();
+    }
+    return this;
+  }
+  
+  limit(amt) {
+    this.data = this.data.slice(0, amt);
+    return this;
+  }
+  
+  then(resolve) {
+    let result = { data: this.data, error: null };
+    if (this.isCount) result.count = this.data.length;
+    resolve(result);
+  }
+}
+
 window.supabase = {
   from: (table) => {
     return {
-      select: (columns) => {
-        return {
-          order: (orderCol, opts) => {
-            return {
-              limit: (limitAmt) => {
-                let data = getLocalTable(table);
-                if (opts && !opts.ascending) data = data.reverse();
-                if (limitAmt) data = data.slice(0, limitAmt);
-                return Promise.resolve({ data, error: null });
-              },
-              then: (resolve) => resolve({ data: getLocalTable(table), error: null })
-            };
-          },
-          eq: (col, val) => {
-            let data = getLocalTable(table).filter(r => r[col] == val);
-            return Promise.resolve({ data, error: null });
-          },
-          in: (col, vals) => {
-            let data = getLocalTable(table).filter(r => vals.includes(r[col]));
-            return Promise.resolve({ data, error: null });
-          },
-          then: (resolve) => resolve({ data: getLocalTable(table), error: null })
-        };
-      },
+      select: (cols, opts) => new MockQueryBuilder(table).select(cols, opts),
       insert: (record) => {
         return new Promise(resolve => {
-          setTimeout(() => {
             let data = getLocalTable(table);
-            
-            // Auto-increment ID if not provided
             if (!record.id) {
               const maxId = data.reduce((max, r) => (r.id > max ? r.id : max), 0);
               record.id = maxId + 1;
             }
+            // created_at mocked
+            if (!record.created_at) record.created_at = new Date().toISOString();
             
             data.push(record);
             saveLocalTable(table, data);
-            
-            // App relies on some caches
-            if (typeof App !== 'undefined') App.toast('Saved locally', 'success');
             resolve({ data: [record], error: null });
-          }, 100);
         });
       },
       update: (record) => {
@@ -115,7 +133,7 @@ window.supabase = {
                 data = data.filter(r => {
                   let match = true;
                   for (let key in condition) if (r[key] != condition[key]) match = false;
-                  return !match; // Keep if NOT match
+                  return !match;
                 });
                 saveLocalTable(table, data);
                 resolve({ data: [], error: null });
@@ -129,7 +147,6 @@ window.supabase = {
 
 const supabase = window.supabase;
 
-// Mock Offline Vault since we are fully offline anyway
 const OfflineVault = {
   safeWrite: async (action, table, record, condition) => {
     if (action === 'INSERT') return await supabase.from(table).insert(record);
@@ -142,9 +159,5 @@ const OfflineVault = {
   processQueue: async () => {}
 };
 
-async function checkConnection() {
-  return true; // Always "connected" to local db
-}
-
-// Ignore online/offline events
+async function checkConnection() { return true; }
 window.addEventListener('online', () => {});

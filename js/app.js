@@ -573,8 +573,26 @@ document.addEventListener('DOMContentLoaded', async () => {
       `);
       return; // Lock app
     } else {
-      const daysLeft = 7 - diffDays;
-      if (syncStatusEl) syncStatusEl.textContent = \`Trial: \${daysLeft} days left\`;
+      const msLeft = (start.getTime() + (7 * 24 * 60 * 60 * 1000)) - now.getTime();
+      
+      const updateTime = () => {
+        const currentMsLeft = (start.getTime() + (7 * 24 * 60 * 60 * 1000)) - Date.now();
+        if (currentMsLeft <= 0) {
+           if (syncStatusEl) syncStatusEl.textContent = 'Trial Expired';
+           return;
+        }
+        const d = Math.floor(currentMsLeft / (1000 * 60 * 60 * 24));
+        const h = Math.floor((currentMsLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((currentMsLeft % (1000 * 60 * 60)) / (1000 * 60));
+        
+        let text = 'Trial: ';
+        if (d > 0) text += d + 'd ';
+        text += h + 'h ' + m + 'm left';
+        if (syncStatusEl) syncStatusEl.textContent = text;
+      };
+      
+      updateTime();
+      setInterval(updateTime, 60000); // update every minute
     }
   }
 

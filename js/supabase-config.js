@@ -35,6 +35,31 @@ class MockQueryBuilder {
     return this;
   }
   
+  neq(col, val) {
+    this.data = this.data.filter(r => r[col] != val);
+    return this;
+  }
+  
+  gt(col, val) {
+    this.data = this.data.filter(r => r[col] > val);
+    return this;
+  }
+  
+  gte(col, val) {
+    this.data = this.data.filter(r => r[col] >= val);
+    return this;
+  }
+  
+  lt(col, val) {
+    this.data = this.data.filter(r => r[col] < val);
+    return this;
+  }
+  
+  lte(col, val) {
+    this.data = this.data.filter(r => r[col] <= val);
+    return this;
+  }
+  
   in(col, vals) {
     this.data = this.data.filter(r => vals.includes(r[col]));
     return this;

@@ -89,8 +89,13 @@ class MockQueryBuilder {
     return this;
   }
   
+  single() {
+    this.isSingle = true;
+    return this;
+  }
+  
   then(resolve) {
-    let result = { data: this.data, error: null };
+    let result = { data: this.isSingle ? (this.data.length > 0 ? this.data[0] : null) : this.data, error: null };
     if (this.isCount) result.count = this.data.length;
     resolve(result);
   }

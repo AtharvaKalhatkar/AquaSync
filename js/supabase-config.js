@@ -61,7 +61,7 @@ class MockQueryBuilder {
   }
   
   in(col, vals) {
-    this.data = this.data.filter(r => vals.includes(r[col]));
+    this.data = this.data.filter(r => vals.some(v => v == r[col]));
     return this;
   }
   

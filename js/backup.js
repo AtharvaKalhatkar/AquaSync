@@ -121,7 +121,7 @@ const Backup = {
           Offline Vault Queue
         </div>
         <div style="font-size:13px; font-weight:700; color:var(--text-primary);" id="offlineQueueCount">
-          ${(() => { try { return JSON.parse(localStorage.getItem('aqua_vault') || '[]').length; } catch { return 0; } })()} pending items
+          ${(() => { try { return JSON.parse(localStorage.getItem('demo_aqua_vault') || '[]').length; } catch { return 0; } })()} pending items
         </div>
         <div style="font-size:10px; font-weight:500; color:var(--text-secondary); margin-top:4px;">
           These will auto-sync when internet is available.
@@ -372,7 +372,7 @@ const Backup = {
 
       // Include offline vault queue
       try {
-        const queue = JSON.parse(localStorage.getItem('aqua_vault') || '[]');
+        const queue = JSON.parse(localStorage.getItem('demo_aqua_vault') || '[]');
         if (queue.length > 0) backupData.offline_queue = queue;
       } catch(ex) {}
     }

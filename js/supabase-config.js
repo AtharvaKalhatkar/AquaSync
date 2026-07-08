@@ -41,12 +41,12 @@ async function checkConnection() {
 =========================================================*/
 const OfflineVault = {
   getQueue() {
-    try { return JSON.parse(localStorage.getItem('aqua_vault') || '[]'); } 
+    try { return JSON.parse(localStorage.getItem('demo_aqua_vault') || '[]'); } 
     catch { return []; }
   },
   
   saveQueue(queue) {
-    localStorage.setItem('aqua_vault', JSON.stringify(queue));
+    localStorage.setItem('demo_aqua_vault', JSON.stringify(queue));
   },
   
   async safeWrite(action, table, record, condition = null) {

@@ -75,7 +75,7 @@ const translations = {
 
 const App = {
   currentPage: 'Dashboard',
-  currentLang: localStorage.getItem('lang') || 'en',
+  currentLang: localStorage.getItem('demo_lang') || 'en',
 
   t(key) {
     if (translations[this.currentLang] && translations[this.currentLang][key]) {
@@ -87,7 +87,7 @@ const App = {
   toggleLanguage() {
     this.currentLang = this.currentLang === 'en' ? 'mr' : 'en';
     try {
-      localStorage.setItem('lang', this.currentLang);
+      localStorage.setItem('demo_lang', this.currentLang);
     } catch(e) {}
     this.applyLanguage();
     
@@ -226,7 +226,7 @@ const App = {
 
   // Sub-navigation handler for Vault
   initTheme() {
-    const saved = localStorage.getItem('theme_preference');
+    const saved = localStorage.getItem('demo_theme_preference');
     if (saved === 'light') {
       document.documentElement.classList.add('light-mode');
       const icon = document.querySelector('#btnTheme i');
@@ -239,10 +239,10 @@ const App = {
     const icon = document.querySelector('#btnTheme i');
     if (isLight) {
       if (icon) icon.setAttribute('data-lucide', 'moon');
-      localStorage.setItem('theme_preference', 'light');
+      localStorage.setItem('demo_theme_preference', 'light');
     } else {
       if (icon) icon.setAttribute('data-lucide', 'sun');
-      localStorage.setItem('theme_preference', 'dark');
+      localStorage.setItem('demo_theme_preference', 'dark');
     }
     this.refreshIcons();
   },

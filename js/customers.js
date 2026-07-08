@@ -9,8 +9,8 @@ const Customers = {
     
     // ⚡ Instant Cache Hydration
     let hydrated = false;
-    const offline = localStorage.getItem('cache_customers');
-    const offlineDues = localStorage.getItem('cache_dues');
+    const offline = localStorage.getItem('demo_cache_customers');
+    const offlineDues = localStorage.getItem('demo_cache_dues');
     if (offline) {
       try {
         this.allCustomers = JSON.parse(offline) || [];
@@ -52,8 +52,8 @@ const Customers = {
          this.customerDues[c.id] = billed - paid;
       });
       
-      localStorage.setItem('cache_customers', JSON.stringify(this.allCustomers));
-      localStorage.setItem('cache_dues', JSON.stringify(this.customerDues));
+      localStorage.setItem('demo_cache_customers', JSON.stringify(this.allCustomers));
+      localStorage.setItem('demo_cache_dues', JSON.stringify(this.customerDues));
       
       this.renderRouteChips();
       this.renderList(this.allCustomers);

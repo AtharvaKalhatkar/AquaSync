@@ -84,6 +84,11 @@ class MockQueryBuilder {
     return this;
   }
   
+  range(start, end) {
+    this.data = this.data.slice(start, end + 1);
+    return this;
+  }
+  
   then(resolve) {
     let result = { data: this.data, error: null };
     if (this.isCount) result.count = this.data.length;
